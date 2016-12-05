@@ -347,6 +347,7 @@ public class HuaweiCfgSynParser {
             
             moiParameterValueMap.put(qName, tagData);
             this.previousTag = qName;
+            tagData = "";
             return;
         }
         

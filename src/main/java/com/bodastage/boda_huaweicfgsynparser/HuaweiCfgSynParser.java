@@ -161,7 +161,23 @@ public class HuaweiCfgSynParser {
      * 
      * @since 1.0.0
      */
-    private String moiXSIType;        
+    private String moiXSIType;     
+    
+    /**
+     * The nodename value extracted from the Id value portion of the spec:syncdata
+     * tag.
+     * 
+     * @since 1.0.0
+     */
+    private String nodeName;
+    
+    /**
+     * This is used when subsituting a parameter value with the value indicated
+     * in comments.
+     * 
+     * @since 1.0.0
+     */
+    private String previousTag;
     
     public HuaweiCfgSynParser(){}
     
@@ -181,6 +197,7 @@ public class HuaweiCfgSynParser {
 
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
+                
                 switch (event.getEventType()) {
                     case XMLStreamConstants.START_ELEMENT:
                         startElementEvent(event);
@@ -191,6 +208,13 @@ public class HuaweiCfgSynParser {
                         break;
                     case XMLStreamConstants.END_ELEMENT:
                         endELementEvent(event);
+                        break;
+                    case XMLStreamConstants.COMMENT:
+                        if(moiParameterValueMap.containsKey(this.previousTag)){
+                            String comment 
+                                    = ((javax.xml.stream.events.Comment) event).getText();
+                            moiParameterValueMap.put(previousTag,comment);
+                        }
                         break;
                 }
             }
@@ -225,6 +249,12 @@ public class HuaweiCfgSynParser {
                 }
                 if (attribute.getName().getLocalPart().equals("Id")) {
                     this.syndataId = attribute.getValue();
+                    String[] arr = this.syndataId.split("=");
+                    if(arr.length>1){
+                        this.nodeName = arr[1];
+                    }else{
+                        this.nodeName = this.syndataId;
+                    }
                 }                
                 if (attribute.getName().getLocalPart().equals("productversion")) {
                     this.productVersion = attribute.getValue();
@@ -267,8 +297,8 @@ public class HuaweiCfgSynParser {
         if(qName.equals("fileFooter")){
             String footerFile = outputDirectory + File.separatorChar +  "fileFooter.csv";
             PrintWriter pw = new PrintWriter( new File(footerFile));
-            String headers = "FileName";
-            String values = baseFileName;
+            String headers = "FileName,NODENAME";
+            String values = baseFileName,nodeName;
             
             while (attributes.hasNext()) {
                 Attribute attribute = attributes.next();
@@ -301,8 +331,8 @@ public class HuaweiCfgSynParser {
         String prefix = endElement.getName().getPrefix();
         String qName = endElement.getName().getLocalPart();
         
-        String paramNames = "FileName,FunctionType,Id,productversion,nermversion,objId";
-        String paramValues = baseFileName+","+functionType+","+syndataId
+        String paramNames = "FileName,NODENAME,FunctionType,Id,productversion,nermversion,objId";
+        String paramValues = baseFileName+","+nodeName+","+functionType+","+syndataId
                 +","+productVersion+","+neRMVersion+","+syndataObjId;
         
         //</class>
@@ -316,6 +346,7 @@ public class HuaweiCfgSynParser {
         {
             
             moiParameterValueMap.put(qName, tagData);
+            this.previousTag = qName;
             return;
         }
         

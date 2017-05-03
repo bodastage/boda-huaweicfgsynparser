@@ -8,6 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -108,11 +111,19 @@ public class HuaweiCfgSynParser {
     final long startTime = System.currentTimeMillis();
     
     /**
-     * The file to be parsed.
+     * The file being  parsed.
      * 
      * @since 1.0.0
      */
     private String dataFile;
+    
+    
+    /**
+     * The file/directory to be parsed.
+     * 
+     * @since 1.0.1
+     */
+    private String dataSource;
             
     /**
      * File format version tag for spec:fileHeader.
@@ -182,18 +193,64 @@ public class HuaweiCfgSynParser {
     public HuaweiCfgSynParser(){}
     
     /**
-     * The parser's entry point.
+     * The parser's entry point
      * 
-     * @param filename 
+     * @since 1.0.0
+     * @version 1.0.1
+     * @throws XMLStreamException
+     * @throws FileNotFoundException
+     * @throws UnsupportedEncodingException 
      */
-    public void parse() 
+    public void parse()
+    throws XMLStreamException, FileNotFoundException, UnsupportedEncodingException
+    {
+        //this.dataFILe;
+        Path file = Paths.get(this.dataSource);
+        boolean isRegularExecutableFile = Files.isRegularFile(file) &
+                                          Files.isReadable(file);
+        
+        boolean isReadableDirectory = Files.isDirectory(file) & 
+                                      Files.isReadable(file);
+        
+        if (isRegularExecutableFile){
+            this.setFileName(this.dataSource);
+            this.parseFile(this.dataSource);
+        }
+        
+        if (isReadableDirectory){
+
+            File directory = new File(this.dataSource);
+
+            //get all the files from a directory
+            File[] fList = directory.listFiles();
+
+            for (File f : fList){
+                this.setFileName(f.getAbsolutePath());
+                this.parseFile(f.getAbsolutePath());
+            }
+        }
+        
+        closeMOPWMap();
+        
+    }
+    /**
+     * Parses a single file
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * @throws XMLStreamException
+     * @throws FileNotFoundException
+     * @throws UnsupportedEncodingException 
+     * 
+     */
+    public void parseFile(String filename) 
     throws XMLStreamException, FileNotFoundException, UnsupportedEncodingException
     {
             XMLInputFactory factory = XMLInputFactory.newInstance();
 
             XMLEventReader eventReader = factory.createXMLEventReader(
-                    new FileReader(this.dataFile));
-            baseFileName = getFileBasename(this.dataFile);
+                    new FileReader(filename));
+            baseFileName = getFileBasename(filename);
 
             while (eventReader.hasNext()) {
                 XMLEvent event = eventReader.nextEvent();
@@ -220,8 +277,6 @@ public class HuaweiCfgSynParser {
             }
             
             
-            //
-            closeMOPWMap();
     }
     
     /**
@@ -521,7 +576,21 @@ public class HuaweiCfgSynParser {
      * @version 1.0.0
      * @param directoryName 
      */
-    public void setFileName(String filename ){
+    private void setFileName(String filename ){
         this.dataFile = filename;
     }
+    
+    
+    /**
+     * Set name of file to parser.
+     * 
+     * @since 1.0.1
+     * @version 1.0.0
+     * @param dataSource 
+     */
+    public void setDataSource(String dataSource ){
+        this.dataSource = dataSource;
+    }
+    
+    
 }

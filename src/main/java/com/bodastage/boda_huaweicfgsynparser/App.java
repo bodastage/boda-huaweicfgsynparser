@@ -36,7 +36,7 @@ public class App
             }
 
             HuaweiCfgSynParser parser = new HuaweiCfgSynParser();
-            parser.setFileName(filename);
+            parser.setDataSource(filename);
             parser.setOutputDirectory(outputDirectory);
             parser.parse();
             parser.printExecutionTime();

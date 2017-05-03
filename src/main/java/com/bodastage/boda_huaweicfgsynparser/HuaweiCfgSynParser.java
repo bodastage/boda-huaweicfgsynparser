@@ -28,7 +28,7 @@ import javax.xml.stream.events.XMLEvent;
 /**
  *
  * @author Bodastage <info@bodastage.com>
- * @version 1.0.0
+ * @version 1.1.0
  */
 public class HuaweiCfgSynParser {
     

@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Huawei baseline cfg sync data xml export files Parser.
  * 
- * @version  1.0.0
+ * @version  1.1.0
  * @since 1.0.0
  */
 public class App 
@@ -53,7 +53,7 @@ public class App
      * @version 1.0.0
      */
     static public void showHelp(){
-        System.out.println("boda-huaweicfgsynparser 1.0.0. Copyright (c) 2016 Bodastage(http://www.bodastage.com)");
+        System.out.println("boda-huaweicfgsynparser 1.1.0. Copyright (c) 2016 Bodastage(http://www.bodastage.com)");
         System.out.println("Parses HuaweI baseline bulk configuration sync data XML to csv.");
         System.out.println("Usage: java -jar boda-huaweicfgsynparser.jar <fileToParse.xml> <outputDirectory>");
     }

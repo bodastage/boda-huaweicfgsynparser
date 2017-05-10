@@ -226,7 +226,13 @@ public class HuaweiCfgSynParser {
 
             for (File f : fList){
                 this.setFileName(f.getAbsolutePath());
-                this.parseFile(f.getAbsolutePath());
+                try {
+                    this.parseFile(f.getAbsolutePath());
+                    System.out.println(this.baseFileName + " successfully parsed.\n");
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Skipping file: " + this.baseFileName + "\n");
+                }
             }
         }
         

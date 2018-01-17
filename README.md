@@ -5,7 +5,7 @@ Parses HuaweI baseline bulk configuration management XML sync data to csv.
 
 Below is the format of the expected input file:
 
-```
+```XML
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <spec:BACKUPCFG xmlns:spec="http://www.huawei.com/specs/huawei_wl_bulkcm_xml_baseline_syn_1.0.0"
 xmlns="http://www.huawei.com/specs/bsc6000_nrm_forSyn_collapse_1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

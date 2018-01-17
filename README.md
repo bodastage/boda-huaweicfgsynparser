@@ -10,7 +10,7 @@ java -jar  huaweicfgsynparser.jar huawei_cfgsyndata.xml outputDirectory
 The lastest compiled jar file is availabled in the dist directory. Alternatively, download it directly from [here](https://github.com/bodastage/boda-huaweicfgsynparser/raw/master/dist/boda-huaweicfgsynparser.jar).
 
 # Requirements
-To run the jar file, you need Java version 1.6 and above.
+To run the jar file, you need Java version 1.8 and above.
 
 # Getting help
 To report issues with the application or request new features use the issue [tracker](https://github.com/bodastage/boda-huaweicfgsynparser/issues). For help and customizations send an email to info@bodastage.com.

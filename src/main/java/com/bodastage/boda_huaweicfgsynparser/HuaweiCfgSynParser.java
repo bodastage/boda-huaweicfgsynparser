@@ -581,7 +581,7 @@ public class HuaweiCfgSynParser {
                 if (parameterFile == null) {
                     //logger.debug("moiXSIType:" + moiXSIType);
 
-                    paramNames = "FILENAME,DATETIME,NODENAME,FUNCTIONTYPE,SYNCDATAID,PRODUCTVERSION,NERMVERSION,SYNCDATAOBJID";
+                    paramNames = "FILENAME,DATETIME,NODENAME,SYNCDATAFUNCTIONTYPE,SYNCDATAID,SYNCDATAPRODUCTVERSION,SYNCDATANERMVERSION,SYNCDATAOBJID";
                     paramValues = baseFileName + "," + varDateTime + "," + nodeName + "," + functionType + "," + syndataId
                             + "," + productVersion + "," + neRMVersion + "," + syndataObjId;
 
@@ -655,14 +655,14 @@ public class HuaweiCfgSynParser {
                                 pName += ",DATETIME";
                             } else if (p.equals("NODENAME")) {
                                 pName += ",NODENAME";
-                            } else if (p.equals("FUNCTIONTYPE")) {
-                                pName += ",FUNCTIONTYPE";
+                            } else if (p.equals("SYNCDATAFUNCTIONTYPE")) {
+                                pName += ",SYNCDATAFUNCTIONTYPE";
                             } else if (p.equals("SYNCDATAID")) {
                                 pName += ",SYNCDATAID";
-                            } else if (p.equals("PRODUCTVERSION")) {
-                                pName += ",PRODUCTVERSION";
-                            } else if (p.equals("NERMVERSION")) {
-                                pName += ",NERMVERSION";
+                            } else if (p.equals("SYNCDATARODUCTVERSION")) {
+                                pName += ",SYNCDATAPRODUCTVERSION";
+                            } else if (p.equals("SYNCDATANERMVERSION")) {
+                                pName += ",SYNCDATANERMVERSION";
                             } else if (p.equals("SYNCDATAOBJID")) {
                                 pName += ",SYNCDATAOBJID";
                             } else {
@@ -690,13 +690,13 @@ public class HuaweiCfgSynParser {
                                 paramValues += "," + varDateTime;
                             } else if (pName.equals("NODENAME")) {
                                 paramValues += "," + nodeName;
-                            } else if (pName.equals("FUNCTIONTYPE")) {
+                            } else if (pName.equals("SYNCDATAFUNCTIONTYPE")) {
                                 paramValues += "," + functionType;
-                            } else if (pName.equals("SYNCDATAID")) {
+                            } else if (pName.equals("SYNCDATASYNCDATAID")) {
                                 paramValues += "," + syndataId;
-                            } else if (pName.equals("PRODUCTVERSION")) {
+                            } else if (pName.equals("SYNCDATAPRODUCTVERSION")) {
                                 paramValues += "," + productVersion;
-                            } else if (pName.equals("NERMVERSION")) {
+                            } else if (pName.equals("SYNCDATANERMVERSION")) {
                                 paramValues += "," + neRMVersion;
                             } else if (pName.equals("SYNCDATAOBJID")) {
                                 paramValues += "," + syndataObjId;

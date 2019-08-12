@@ -42,7 +42,23 @@ CfgSynData_collapse_spec.xsd">
 </spec:BACKUPCFG>
 ```
 # Usage
-java -jar  huaweicfgsynparser.jar huawei_cfgsyndata.xml outputDirectory
+```
+usage: java -jar boda-huaweicfgsynparser.jar
+Parses Huawei AUTOBAK/CM Backup configuration data file to csv
+
+ -c,--parameter-config <PARAMETER_CONFIG>   parameter configuration file
+ -h,--help                                  show help
+ -i,--input-file <INPUT_FILE>               input file or directory name
+ -o,--output-directory <OUTPUT_DIRECTORY>   output directory name
+ -v,--version                               display version
+
+Examples:
+java -jar boda-huaweicfgsynparser.jar -i dump.xml -o out_folder
+java -jar boda-huaweicfgsynparser.jar -i input_folder -o out_folder
+
+Copyright (c) 2019 Bodastage Solutions(http://www.bodastage.com)
+```
+
 
 # Download and installation
 The lastest compiled jar file is availabled in the dist directory. Alternatively, download it directly from [here](https://github.com/bodastage/boda-huaweicfgsynparser/raw/master/dist/boda-huaweicfgsynparser.jar).
@@ -54,7 +70,7 @@ To run the jar file, you need Java version 1.8 and above.
 To report issues with the application or request new features use the issue [tracker](https://github.com/bodastage/boda-huaweicfgsynparser/issues). For help and customizations send an email to info@bodastage.com.
 
 # Credits
-[Bodastage Solutions](http://www.bodastage.com) - info@bodastage.com
+[Bodastage Solutions](https://www.bodastage.com) - info@bodastage.com
 
 # Contact
 For any other concerns apart from issues and feature requests, send an email to info@bodastage.com.

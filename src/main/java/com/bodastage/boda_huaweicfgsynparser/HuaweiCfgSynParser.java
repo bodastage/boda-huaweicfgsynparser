@@ -28,6 +28,13 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
 
 /**
  *
@@ -38,7 +45,7 @@ public class HuaweiCfgSynParser {
 
     static Logger logger = LoggerFactory.getLogger(HuaweiCfgSynParser.class);
 
-    private final String VERSION = "1.2.0";
+    final static String VERSION = "1.3.0";
 
     /**
      * Mark that we are in a class tag.
@@ -886,49 +893,119 @@ public class HuaweiCfgSynParser {
     }
     
     public static void main(String[] args) {
-
+        Options options = new Options();
+        CommandLine cmd = null;
+        String outputDirectory = null;   
+        String inputFile = null;
+        String parameterConfigFile = null;
+        Boolean showHelpMessage = false;
+        Boolean showVersion = false;
+        
+        
         try {
-            //show help
-            if ((args.length != 2 && args.length != 3) || (args.length == 1 && args[0] == "-h")) {
-                showHelp();
-                System.exit(1);
-            }
-            //Get bulk CM XML file to parse.
-            String filename = args[0];
-            String outputDirectory = args[1];
+            
+            options.addOption( "v", "version", false, "display version" );
+            options.addOption( Option.builder("i")
+                    .longOpt( "input-file" )
+                    .desc( "input file or directory name")
+                    .hasArg()
+                    .argName( "INPUT_FILE" ).build());
+            options.addOption(Option.builder("o")
+                    .longOpt( "output-directory" )
+                    .desc( "output directory name")
+                    .hasArg()
+                    .argName( "OUTPUT_DIRECTORY" ).build());
+            options.addOption(Option.builder("c")
+                    .longOpt( "parameter-config" )
+                    .desc( "parameter configuration file")
+                    .hasArg()
+                    .argName( "PARAMETER_CONFIG" ).build() );
+            options.addOption( "h", "help", false, "show help" );
+            
+            CommandLineParser parser = new DefaultParser();
+            cmd = parser.parse( options, args);
 
+            if( cmd.hasOption("h")){
+                showHelpMessage = true;
+            }
+
+            if( cmd.hasOption("v")){
+                showVersion = true;
+            }
+            
+            if(cmd.hasOption('o')){
+                outputDirectory = cmd.getOptionValue("o"); 
+            }
+            
+            if(cmd.hasOption('i')){
+                inputFile = cmd.getOptionValue("i"); 
+            }
+            
+            if(cmd.hasOption('c')){
+                parameterConfigFile = cmd.getOptionValue("c"); 
+            }
+      
+       }catch(IllegalArgumentException e){
+           
+       } catch (ParseException ex) {
+            //java.util.logging.Logger.getLogger(HuaweiCfgSynParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    try{
+            
+            if(showVersion == true ){
+                System.out.println(VERSION);
+                System.out.println("Copyright (c) 2019 Bodastage Solutions(http://www.bodastage.com)");
+                System.exit(0);
+            }
+            
+            
+            //show help
+            if( showHelpMessage == true || 
+                inputFile == null || 
+                ( outputDirectory == null ) ){
+                     HelpFormatter formatter = new HelpFormatter();
+                     String header = "Parses Huawei AUTOBAK/CM Backup configuration data file to csv\n\n";
+                     String footer = "\n";
+                     footer += "Examples: \n";
+                     footer += "java -jar boda-huaweicfgsynparser.jar -i dump.xml -o out_folder\n";
+                     footer += "java -jar boda-huaweicfgsynparser.jar -i input_folder -o out_folder\n";
+                     footer += "\nCopyright (c) 2019 Bodastage Solutions(http://www.bodastage.com)";
+                     formatter.printHelp( "java -jar boda-huaweicfgsynparser.jar", header, options, footer );
+                     System.exit(0);
+            }
+            
             //Confirm that the output directory is a directory and has write 
             //privileges
-            File fOutputDir = new File(outputDirectory);
-            if (!fOutputDir.isDirectory()) {
-                System.err.println("ERROR: The specified output directory is not a directory!.");
-                System.exit(1);
-            }
+            if(outputDirectory != null ){
+                File fOutputDir = new File(outputDirectory);
+                if (!fOutputDir.isDirectory()) {
+                    System.err.println("ERROR: The specified output directory is not a directory!.");
+                    System.exit(1);
+                }
 
-            if (!fOutputDir.canWrite()) {
-                System.err.println("ERROR: Cannot write to output directory!");
-                System.exit(1);
-            }
-
-            HuaweiCfgSynParser parser = new HuaweiCfgSynParser();
-
-            if (args.length == 3) {
-                //logger.debug("Third paramter provided. File name is " + args[2]);
-
-                File f = new File(args[2]);
-                if (f.isFile()) {
-
-                    parser.setParameterFile(args[2]);
-                    parser.getParametersToExtract(args[2]);
-                } else {
-                    throw new Exception(args[2] + " is not a file");
+                if (!fOutputDir.canWrite()) {
+                    System.err.println("ERROR: Cannot write to output directory!");
+                    System.exit(1);
                 }
             }
-
-            parser.setDataSource(filename);
+            
+            
+            HuaweiCfgSynParser parser = new HuaweiCfgSynParser();
+            
+            if(  parameterConfigFile != null ){
+                File f = new File(parameterConfigFile);
+                if(f.isFile()){
+                    parser.setParameterFile(parameterConfigFile);
+                    parser.getParametersToExtract(parameterConfigFile);
+                    parser.parserState = ParserStates.EXTRACTING_VALUES;
+                }
+            }
+            
+            parser.setDataSource(inputFile);
             parser.setOutputDirectory(outputDirectory);
             parser.parse();
-            parser.printExecutionTime();
+
         } catch (Exception e) {
             logger.error(e.getMessage());
             System.exit(1);

@@ -53,7 +53,7 @@ Parses Huawei AUTOBAK/CM Backup configuration data file to csv
  -v,--version                               display version
 
 Examples:
-java -jar boda-huaweicfgsynparser.jar -i cnaiv2_dump.xml -o out_folder
+java -jar boda-huaweicfgsynparser.jar -i dump.xml -o out_folder
 java -jar boda-huaweicfgsynparser.jar -i input_folder -o out_folder
 
 Copyright (c) 2019 Bodastage Solutions(http://www.bodastage.com)

@@ -968,7 +968,7 @@ public class HuaweiCfgSynParser {
                      String header = "Parses Huawei AUTOBAK/CM Backup configuration data file to csv\n\n";
                      String footer = "\n";
                      footer += "Examples: \n";
-                     footer += "java -jar boda-huaweicfgsynparser.jar -i cnaiv2_dump.xml -o out_folder\n";
+                     footer += "java -jar boda-huaweicfgsynparser.jar -i dump.xml -o out_folder\n";
                      footer += "java -jar boda-huaweicfgsynparser.jar -i input_folder -o out_folder\n";
                      footer += "\nCopyright (c) 2019 Bodastage Solutions(http://www.bodastage.com)";
                      formatter.printHelp( "java -jar boda-huaweicfgsynparser.jar", header, options, footer );

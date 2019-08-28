@@ -1,4 +1,5 @@
 ![Build status](https://travis-ci.org/bodastage/boda-huaweicfgsynparser.svg?branch=master)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbodastage%2Fboda-huaweicfgsynparser.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbodastage%2Fboda-huaweicfgsynparser?ref=badge_shield)
 
 # boda-huaweicfgsynparser
 Parses HuaweI baseline bulk configuration management XML sync data to csv.
@@ -77,3 +78,6 @@ For any other concerns apart from issues and feature requests, send an email to 
 
 # Licence
 This project is licensed under the Apache 2.0 licence.  See LICENCE file for details.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbodastage%2Fboda-huaweicfgsynparser.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbodastage%2Fboda-huaweicfgsynparser?ref=badge_large)
